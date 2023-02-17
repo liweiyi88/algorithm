@@ -17,9 +17,9 @@ type Demo struct {
 type Method int64
 
 const (
-	QuickFind Method = iota
-	QuickUnion
-	Weight
+	QF Method = iota
+	QU
+	W
 )
 
 func NewDemo(n int, method Method) *Demo {
@@ -31,10 +31,12 @@ func NewDemo(n int, method Method) *Demo {
 
 func (d *Demo) algorithm() UnionFind {
 	switch d.Method {
-	case QuickFind:
-		return NewUFQuickFind(d.NumberOfComponentIds)
+	case QF:
+		return NewQuickFind(d.NumberOfComponentIds)
+	case QU:
+		return NewQuickUnion(d.NumberOfComponentIds)
 	default:
-		return NewUFQuickFind(d.NumberOfComponentIds)
+		return NewQuickFind(d.NumberOfComponentIds)
 	}
 }
 
@@ -56,10 +58,10 @@ func (d *Demo) Run() {
 
 	for _, v := range data {
 		if al.Connected(v[0], v[1]) {
-			fmt.Printf("%+v\n", al)
+			fmt.Printf("p: %d, q: %d, result: %+v\n", v[0], v[1], al)
 			continue
 		}
 		al.Union(v[0], v[1])
-		fmt.Printf("%+v\n", al)
+		fmt.Printf("p: %d, q: %d, result: %+v\n", v[0], v[1], al)
 	}
 }

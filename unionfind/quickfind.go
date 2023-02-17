@@ -1,24 +1,24 @@
 package unionfind
 
-type UFQuickFind struct {
+type QuickFind struct {
 	Id    []int
 	count int
 }
 
-func NewUFQuickFind(n int) *UFQuickFind {
+func NewQuickFind(n int) *QuickFind {
 	id := make([]int, 0, n)
 
 	for i := 0; i < n; i++ {
 		id = append(id, i)
 	}
 
-	return &UFQuickFind{
+	return &QuickFind{
 		count: n,
 		Id:    id,
 	}
 }
 
-func (uf *UFQuickFind) Union(p, q int) {
+func (uf *QuickFind) Union(p, q int) {
 	pId := uf.Find(p)
 	qId := uf.Find(q)
 
@@ -35,14 +35,14 @@ func (uf *UFQuickFind) Union(p, q int) {
 	uf.count--
 }
 
-func (uf *UFQuickFind) Find(p int) int {
+func (uf *QuickFind) Find(p int) int {
 	return uf.Id[p]
 }
 
-func (uf *UFQuickFind) Connected(p, q int) bool {
+func (uf *QuickFind) Connected(p, q int) bool {
 	return uf.Find(p) == uf.Find(q)
 }
 
-func (uf *UFQuickFind) Count() int {
+func (uf *QuickFind) Count() int {
 	return uf.count
 }

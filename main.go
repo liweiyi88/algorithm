@@ -5,6 +5,9 @@ import (
 )
 
 func main() {
-	unionfindDemo := unionfind.NewDemo(10, unionfind.QuickFind)
+	// unionfindDemo := unionfind.NewDemo(10, unionfind.QF)
+	// unionfindDemo.Run()
+
+	unionfindDemo := unionfind.NewDemo(10, unionfind.QU)
 	unionfindDemo.Run()
 }
