@@ -17,9 +17,9 @@ type Demo struct {
 type Method int64
 
 const (
-	QF Method = iota
-	QU
-	W
+	QF Method = iota // quick find
+	QU               // quick union
+	W                // weighted quick union
 )
 
 func NewDemo(n int, method Method) *Demo {
@@ -35,6 +35,8 @@ func (d *Demo) algorithm() UnionFind {
 		return NewQuickFind(d.NumberOfComponentIds)
 	case QU:
 		return NewQuickUnion(d.NumberOfComponentIds)
+	case W:
+		return NewWeightedQuickUnion(d.NumberOfComponentIds)
 	default:
 		return NewQuickFind(d.NumberOfComponentIds)
 	}
