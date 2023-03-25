@@ -1,15 +1,19 @@
 package sort
 
-type MergeSort struct {
-	aux []string
+import (
+	"golang.org/x/exp/constraints"
+)
+
+type MergeSort[K constraints.Ordered] struct {
+	aux []K
 }
 
-func (m *MergeSort) Sort(a []string) {
-	m.aux = make([]string, len(a))
+func (m *MergeSort[K]) Sort(a []K) {
+	m.aux = make([]K, len(a))
 	m.sort(a, 0, len(a)-1)
 }
 
-func (m *MergeSort) sort(a []string, low, high int) {
+func (m *MergeSort[K]) sort(a []K, low, high int) {
 	if high <= low {
 		return
 	}
@@ -20,7 +24,7 @@ func (m *MergeSort) sort(a []string, low, high int) {
 	m.merge(a, low, mid, high)
 }
 
-func (m *MergeSort) merge(a []string, low, mid, high int) {
+func (m *MergeSort[K]) merge(a []K, low, mid, high int) {
 	i, j := low, mid+1
 
 	for k := low; k <= high; k++ {

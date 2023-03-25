@@ -4,7 +4,7 @@ import "testing"
 
 func TestMergeSort(t *testing.T) {
 	example := []string{"M", "E", "R", "G", "E", "S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"}
-	mergesort := MergeSort{}
+	mergesort := MergeSort[string]{}
 	mergesort.Sort(example)
 
 	expected := []string{"A", "E", "E", "E", "E", "G", "L", "M", "M", "O", "P", "R", "R", "S", "T", "X"}
