@@ -1,14 +1,12 @@
-package leetcode
+package l1366
 
 import (
-	"container/heap"
-	"strings"
+	"sort"
 )
 
 type Team struct {
-	letter string
+	letter rune
 	score  []int
-	index  int
 }
 
 type TeamRank []*Team
@@ -21,6 +19,10 @@ func (teamRank TeamRank) Len() int {
 
 func (teamRank TeamRank) Less(i, j int) bool {
 	for n := 0; n < len(teamRank[i].score); n++ {
+		if teamRank[i].score[n] == teamRank[j].score[n] {
+			continue
+		}
+
 		if teamRank[i].score[n] > teamRank[j].score[n] {
 			return true
 		}
@@ -35,36 +37,17 @@ func (teamRank TeamRank) Less(i, j int) bool {
 
 func (teamRank TeamRank) Swap(i, j int) {
 	teamRank[i], teamRank[j] = teamRank[j], teamRank[i]
-	teamRank[i].index = i
-	teamRank[j].index = j
-}
-
-func (teamRank *TeamRank) Push(x any) {
-	n := len(*teamRank)
-	team := x.(*Team)
-	team.index = n
-	*teamRank = append(*teamRank, team)
-}
-
-func (teamRank *TeamRank) Pop() any {
-	old := *teamRank
-	n := len(old)
-	team := old[n-1]
-	old[n-1] = nil
-	team.index = -1
-	*teamRank = old[0 : n-1]
-	return team
 }
 
 func (teamRank TeamRank) Result() string {
-	results := []string{}
+	results := []rune{}
+	sort.Sort(teamRank)
 
-	for teamRank.Len() > 0 {
-		topTeam := heap.Pop(&teamRank).(*Team)
-		results = append(results, topTeam.letter)
+	for i := 0; i < teamRank.Len(); i++ {
+		results = append(results, teamRank[i].letter)
 	}
 
-	return strings.Join(results, "")
+	return string(results)
 }
 
 func rankTeams(votes []string) string {
@@ -72,11 +55,11 @@ func rankTeams(votes []string) string {
 		return votes[0]
 	}
 
-	results := make(map[string][]int)
+	results := make(map[rune][]int)
 
 	for _, vote := range votes {
 		for j, letter := range vote {
-			teamLetter := string(letter)
+			teamLetter := letter
 
 			if _, ok := results[teamLetter]; !ok {
 				results[teamLetter] = make([]int, maxNumberOfTeams)
@@ -93,12 +76,9 @@ func rankTeams(votes []string) string {
 		teamRank[i] = &Team{
 			letter: letter,
 			score:  score,
-			index:  i,
 		}
 		i++
 	}
-
-	heap.Init(&teamRank)
 
 	return teamRank.Result()
 }

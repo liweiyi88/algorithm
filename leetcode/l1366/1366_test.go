@@ -1,4 +1,4 @@
-package leetcode
+package l1366
 
 import "testing"
 
