@@ -2,11 +2,10 @@ package leetcode1366sort
 
 import (
 	"sort"
-	"strings"
 )
 
 type Team struct {
-	letter string
+	letter rune
 	score  []int
 }
 
@@ -20,6 +19,10 @@ func (teamRank TeamRank) Len() int {
 
 func (teamRank TeamRank) Less(i, j int) bool {
 	for n := 0; n < len(teamRank[i].score); n++ {
+		if teamRank[i].score[n] == teamRank[j].score[n] {
+			continue
+		}
+
 		if teamRank[i].score[n] > teamRank[j].score[n] {
 			return true
 		}
@@ -37,14 +40,14 @@ func (teamRank TeamRank) Swap(i, j int) {
 }
 
 func (teamRank TeamRank) Result() string {
-	results := []string{}
+	results := []rune{}
 	sort.Sort(teamRank)
 
 	for i := 0; i < teamRank.Len(); i++ {
 		results = append(results, teamRank[i].letter)
 	}
 
-	return strings.Join(results, "")
+	return string(results)
 }
 
 func rankTeams(votes []string) string {
@@ -52,11 +55,11 @@ func rankTeams(votes []string) string {
 		return votes[0]
 	}
 
-	results := make(map[string][]int)
+	results := make(map[rune][]int)
 
 	for _, vote := range votes {
 		for j, letter := range vote {
-			teamLetter := string(letter)
+			teamLetter := letter
 
 			if _, ok := results[teamLetter]; !ok {
 				results[teamLetter] = make([]int, maxNumberOfTeams)
