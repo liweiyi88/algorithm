@@ -6,7 +6,7 @@ import (
 )
 
 func TestPrint(t *testing.T) {
-	btree := BinaryTree{}
+	btree := BinaryTree[string]{}
 	btree.Put("S", 1)
 	btree.Put("E", 2)
 	btree.Put("X", 3)
@@ -26,7 +26,7 @@ func TestPrint(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	btree := BinaryTree{}
+	btree := BinaryTree[string]{}
 	btree.Put("S", 1)
 	btree.Put("E", 2)
 	btree.Put("X", 3)
@@ -45,7 +45,7 @@ func TestGet(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	btree := BinaryTree{}
+	btree := BinaryTree[string]{}
 	btree.Put("S", 1)
 	btree.Put("E", 2)
 	btree.Put("X", 3)
@@ -66,7 +66,7 @@ func TestDelete(t *testing.T) {
 }
 
 func TestKeys(t *testing.T) {
-	btree := BinaryTree{}
+	btree := BinaryTree[string]{}
 	btree.Put("S", 1)
 	btree.Put("E", 2)
 	btree.Put("X", 3)

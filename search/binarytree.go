@@ -3,36 +3,38 @@ package search
 import (
 	"fmt"
 	"io"
+
+	"golang.org/x/exp/constraints"
 )
 
-type node struct {
+type node[T constraints.Ordered] struct {
 	n           int
-	key         string
+	key         T
 	value       any
-	left, right *node
+	left, right *node[T]
 }
 
-func newNode(key string, value any, n int) *node {
-	return &node{
+func newNode[T constraints.Ordered](key T, value any, n int) *node[T] {
+	return &node[T]{
 		n:     n,
 		key:   key,
 		value: value,
 	}
 }
 
-type BinaryTree struct {
-	root *node
+type BinaryTree[T constraints.Ordered] struct {
+	root *node[T]
 }
 
-func delete(x *node, key string) *node {
+func delete[T constraints.Ordered](x *node[T], key T) *node[T] {
 	if x == nil {
 		return nil
 	}
 
 	if key < x.key {
-		x.left = delete(x.left, key)
+		x.left = delete[T](x.left, key)
 	} else if key > x.key {
-		x.right = delete(x.right, key)
+		x.right = delete[T](x.right, key)
 	} else {
 		if x.right == nil {
 			return x.left
@@ -53,7 +55,7 @@ func delete(x *node, key string) *node {
 	return x
 }
 
-func deleteMin(x *node) *node {
+func deleteMin[T constraints.Ordered](x *node[T]) *node[T] {
 	if x.left == nil {
 		return x.right
 	}
@@ -63,7 +65,7 @@ func deleteMin(x *node) *node {
 	return x
 }
 
-func get(x *node, key string) any {
+func get[T constraints.Ordered](x *node[T], key T) any {
 	if x == nil {
 		return nil
 	}
@@ -79,7 +81,7 @@ func get(x *node, key string) any {
 	return x.value
 }
 
-func keys(x *node, queue *[]string, lowKey, highKey string) {
+func keys[T constraints.Ordered](x *node[T], queue *[]T, lowKey, highKey T) {
 	if x == nil {
 		return
 	}
@@ -97,7 +99,7 @@ func keys(x *node, queue *[]string, lowKey, highKey string) {
 	}
 }
 
-func min(x *node) *node {
+func min[T constraints.Ordered](x *node[T]) *node[T] {
 	if x.left == nil {
 		return x
 	}
@@ -105,7 +107,7 @@ func min(x *node) *node {
 	return min(x.left)
 }
 
-func print(x *node, w io.Writer) {
+func print[T constraints.Ordered](x *node[T], w io.Writer) {
 	if x.left != nil {
 		print(x.left, w)
 	}
@@ -117,7 +119,7 @@ func print(x *node, w io.Writer) {
 	}
 }
 
-func put(x *node, key string, value any) *node {
+func put[T constraints.Ordered](x *node[T], key T, value any) *node[T] {
 	if x == nil {
 		return newNode(key, value, 1)
 	}
@@ -135,7 +137,7 @@ func put(x *node, key string, value any) *node {
 	return x
 }
 
-func rank(key string, x *node) int {
+func rank[T constraints.Ordered](key T, x *node[T]) int {
 	if x == nil {
 		return 0
 	}
@@ -151,7 +153,7 @@ func rank(key string, x *node) int {
 	return 1 + size(x.left) + rank(key, x.right)
 }
 
-func size(x *node) int {
+func size[T constraints.Ordered](x *node[T]) int {
 	if x == nil {
 		return 0
 	}
@@ -159,41 +161,41 @@ func size(x *node) int {
 	return x.n
 }
 
-func (b *BinaryTree) Get(key string) any {
+func (b *BinaryTree[T]) Get(key T) any {
 	return get(b.root, key)
 }
 
-func (b *BinaryTree) Put(key string, value any) {
+func (b *BinaryTree[T]) Put(key T, value any) {
 	b.root = put(b.root, key, value)
 }
 
-func (b *BinaryTree) Size() int {
+func (b *BinaryTree[T]) Size() int {
 	return size(b.root)
 }
 
 // minimum key
-func (b *BinaryTree) Min() string {
+func (b *BinaryTree[T]) Min() T {
 	return min(b.root).key
 }
-func (b *BinaryTree) DeleteMin() {
+func (b *BinaryTree[T]) DeleteMin() {
 	b.root = deleteMin(b.root)
 }
 
-func (b *BinaryTree) Delete(key string) {
+func (b *BinaryTree[T]) Delete(key T) {
 	b.root = delete(b.root, key)
 }
 
-func (b *BinaryTree) Keys(lowKey, highKey string) []string {
-	queue := make([]string, 0, b.Size())
+func (b *BinaryTree[T]) Keys(lowKey, highKey T) []T {
+	queue := make([]T, 0, b.Size())
 	keys(b.root, &queue, lowKey, highKey)
 
 	return queue
 }
 
-func (b *BinaryTree) Print(w io.Writer) {
+func (b *BinaryTree[T]) Print(w io.Writer) {
 	print(b.root, w)
 }
 
-func (b *BinaryTree) Rank(key string) int {
+func (b *BinaryTree[T]) Rank(key T) int {
 	return rank(key, b.root)
 }
