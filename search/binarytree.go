@@ -79,12 +79,42 @@ func get(x *node, key string) any {
 	return x.value
 }
 
+func keys(x *node, queue *[]string, lowKey, highKey string) {
+	if x == nil {
+		return
+	}
+
+	if lowKey < x.key {
+		keys(x.left, queue, lowKey, highKey)
+	}
+
+	if lowKey <= x.key && highKey >= x.key {
+		*queue = append(*queue, x.key)
+	}
+
+	if highKey > x.key {
+		keys(x.right, queue, lowKey, highKey)
+	}
+}
+
 func min(x *node) *node {
 	if x.left == nil {
 		return x
 	}
 
 	return min(x.left)
+}
+
+func print(x *node, w io.Writer) {
+	if x.left != nil {
+		print(x.left, w)
+	}
+
+	fmt.Fprint(w, x.key)
+
+	if x.right != nil {
+		print(x.right, w)
+	}
 }
 
 func put(x *node, key string, value any) *node {
@@ -103,6 +133,22 @@ func put(x *node, key string, value any) *node {
 	x.n = size(x.left) + size(x.right) + 1
 
 	return x
+}
+
+func rank(key string, x *node) int {
+	if x == nil {
+		return 0
+	}
+
+	if key == x.key {
+		return size(x.left)
+	}
+
+	if key < x.key {
+		return rank(key, x.left)
+	}
+
+	return 1 + size(x.left) + rank(key, x.right)
 }
 
 func size(x *node) int {
@@ -137,18 +183,17 @@ func (b *BinaryTree) Delete(key string) {
 	b.root = delete(b.root, key)
 }
 
-func print(x *node, w io.Writer) {
-	if x.left != nil {
-		print(x.left, w)
-	}
+func (b *BinaryTree) Keys(lowKey, highKey string) []string {
+	queue := make([]string, 0, b.Size())
+	keys(b.root, &queue, lowKey, highKey)
 
-	fmt.Fprint(w, x.key)
-
-	if x.right != nil {
-		print(x.right, w)
-	}
+	return queue
 }
 
 func (b *BinaryTree) Print(w io.Writer) {
 	print(b.root, w)
+}
+
+func (b *BinaryTree) Rank(key string) int {
+	return rank(key, b.root)
 }
