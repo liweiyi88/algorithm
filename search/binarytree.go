@@ -32,9 +32,9 @@ func delete[T constraints.Ordered](x *node[T], key T) *node[T] {
 	}
 
 	if key < x.key {
-		x.left = delete[T](x.left, key)
+		x.left = delete(x.left, key)
 	} else if key > x.key {
-		x.right = delete[T](x.right, key)
+		x.right = delete(x.right, key)
 	} else {
 		if x.right == nil {
 			return x.left
