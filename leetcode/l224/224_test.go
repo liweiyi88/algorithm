@@ -13,9 +13,27 @@ func TestCalculate10(t *testing.T) {
 	}
 }
 
+func TestCalculate3(t *testing.T) {
+	expect := -15
+	actual := calculate("2-4-(8+2-6+(8+4-(1)+8-10))")
+
+	if expect != actual {
+		t.Errorf("expect %d, actual got: %d", expect, actual)
+	}
+}
+
 func TestCalculate9(t *testing.T) {
 	expect := 11
 	actual := calculate("(7)-(0)+(4)")
+
+	if expect != actual {
+		t.Errorf("expect %d, actual got: %d", expect, actual)
+	}
+}
+
+func TestCalculate8(t *testing.T) {
+	expect := 2147483647
+	actual := calculate("2147483647")
 
 	if expect != actual {
 		t.Errorf("expect %d, actual got: %d", expect, actual)
@@ -44,13 +62,6 @@ func TestCalculate(t *testing.T) {
 		t.Errorf("expect %d, actual got: %d", expect, actual)
 	}
 
-	expect = 2147483647
-	actual = calculate("2147483647")
-
-	if expect != actual {
-		t.Errorf("expect %d, actual got: %d", expect, actual)
-	}
-
 	expect = -1
 	actual = calculate("-2+ 1")
 
@@ -69,15 +80,6 @@ func TestCalculate(t *testing.T) {
 func TestCalculate2(t *testing.T) {
 	expect := -12
 	actual := calculate("- (3 + (4 + 5))")
-
-	if expect != actual {
-		t.Errorf("expect %d, actual got: %d", expect, actual)
-	}
-}
-
-func TestCalculate3(t *testing.T) {
-	expect := -15
-	actual := calculate("2-4-(8+2-6+(8+4-(1)+8-10))")
 
 	if expect != actual {
 		t.Errorf("expect %d, actual got: %d", expect, actual)
