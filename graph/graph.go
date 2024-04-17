@@ -19,13 +19,11 @@ func NewGraph(v int, e int, edges [][]int) *Graph {
 		E: e,
 	}
 
-	adj := make([]collections.Bag[int], g.V)
+	g.Adj = make([]collections.Bag[int], g.V)
 
 	for v := 0; v < g.V; v++ {
-		adj[v] = collections.NewBag[int]()
+		g.Adj[v] = collections.NewBag[int]()
 	}
-
-	g.Adj = adj
 
 	for _, edge := range edges {
 		v, w := edge[0], edge[1]

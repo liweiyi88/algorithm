@@ -1,6 +1,8 @@
 package graph
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGraph(t *testing.T) {
 	edges := make([][]int, 0, 13)
