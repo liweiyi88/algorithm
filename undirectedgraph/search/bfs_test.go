@@ -1,16 +1,16 @@
 package undirectedgraph
 
 import (
-	"slices"
 	"testing"
 
 	"github.com/liweiyi88/algorithm/undirectedgraph"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestDFS(t *testing.T) {
+func TestBFS(t *testing.T) {
 	graph := undirectedgraph.CreateTestGraph()
 
-	search := NewDeepFirstSearch(*graph, 0)
+	search := NewBreadthFirstSearch(*graph, 0)
 
 	connected := []int{}
 	for i := 0; i < graph.V; i++ {
@@ -19,11 +19,9 @@ func TestDFS(t *testing.T) {
 		}
 	}
 
-	if !slices.Equal(connected, []int{0, 1, 2, 3, 4, 5, 6}) {
-		t.Error("unexpected search result.")
-	}
+	assert.Equal(t, connected, []int{0, 1, 2, 3, 4, 5, 6})
 
-	search = NewDeepFirstSearch(*graph, 9)
+	search = NewBreadthFirstSearch(*graph, 9)
 
 	connected = []int{}
 	for i := 0; i < graph.V; i++ {
@@ -32,7 +30,5 @@ func TestDFS(t *testing.T) {
 		}
 	}
 
-	if !slices.Equal(connected, []int{9, 10, 11, 12}) {
-		t.Error("unexpected search result.")
-	}
+	assert.Equal(t, connected, []int{9, 10, 11, 12})
 }
