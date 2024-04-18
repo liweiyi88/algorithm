@@ -1,15 +1,15 @@
-package graph
+package undirectedgraph
 
 import (
 	"slices"
 	"testing"
 
-	"github.com/liweiyi88/algorithm/graph"
+	"github.com/liweiyi88/algorithm/undirectedgraph"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestDFS(t *testing.T) {
-	graph := graph.CreateTestGraph()
+	graph := undirectedgraph.CreateTestGraph()
 
 	search := NewDeepFirstSearch(*graph, 0)
 

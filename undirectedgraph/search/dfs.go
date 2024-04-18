@@ -1,8 +1,8 @@
-package graph
+package undirectedgraph
 
 import (
 	"github.com/liweiyi88/algorithm/collections"
-	"github.com/liweiyi88/algorithm/graph"
+	"github.com/liweiyi88/algorithm/undirectedgraph"
 )
 
 type DeepFirstSearch struct {
@@ -10,7 +10,7 @@ type DeepFirstSearch struct {
 	count  int
 }
 
-func NewDeepFirstSearch(g graph.Graph, s int) *DeepFirstSearch {
+func NewDeepFirstSearch(g undirectedgraph.Graph, s int) *DeepFirstSearch {
 	dfs := &DeepFirstSearch{
 		marked: make([]bool, g.V),
 		count:  0,
@@ -21,7 +21,7 @@ func NewDeepFirstSearch(g graph.Graph, s int) *DeepFirstSearch {
 	return dfs
 }
 
-func (d *DeepFirstSearch) dfs(g graph.Graph, v int) {
+func (d *DeepFirstSearch) dfs(g undirectedgraph.Graph, v int) {
 	d.marked[v] = true
 	d.count++
 	for w := range g.Adj[v] {
@@ -45,7 +45,7 @@ type DeepFirstPaths struct {
 	s      int
 }
 
-func NewDeepFirstPaths(g graph.Graph, s int) *DeepFirstPaths {
+func NewDeepFirstPaths(g undirectedgraph.Graph, s int) *DeepFirstPaths {
 	dfp := &DeepFirstPaths{
 		marked: make([]bool, g.V),
 		edgeTo: make([]int, g.V),
@@ -57,7 +57,7 @@ func NewDeepFirstPaths(g graph.Graph, s int) *DeepFirstPaths {
 	return dfp
 }
 
-func (d *DeepFirstPaths) dfs(g graph.Graph, v int) {
+func (d *DeepFirstPaths) dfs(g undirectedgraph.Graph, v int) {
 	d.marked[v] = true
 
 	for w := range g.Adj[v] {
