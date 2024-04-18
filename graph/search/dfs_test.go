@@ -5,26 +5,11 @@ import (
 	"testing"
 
 	"github.com/liweiyi88/algorithm/graph"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDFS(t *testing.T) {
-	edges := make([][]int, 0, 13)
-
-	edges = append(edges, []int{0, 5})
-	edges = append(edges, []int{4, 3})
-	edges = append(edges, []int{0, 1})
-	edges = append(edges, []int{9, 12})
-	edges = append(edges, []int{6, 4})
-	edges = append(edges, []int{5, 4})
-	edges = append(edges, []int{0, 2})
-	edges = append(edges, []int{11, 12})
-	edges = append(edges, []int{9, 10})
-	edges = append(edges, []int{0, 6})
-	edges = append(edges, []int{7, 8})
-	edges = append(edges, []int{9, 11})
-	edges = append(edges, []int{5, 3})
-
-	graph := graph.NewGraph(13, 13, edges)
+	graph := graph.CreateTestGraph()
 
 	search := NewDeepFirstSearch(*graph, 0)
 
@@ -51,4 +36,16 @@ func TestDFS(t *testing.T) {
 	if !slices.Equal(connected, []int{9, 10, 11, 12}) {
 		t.Error("unexpected search result.")
 	}
+
+	dfsPath := NewDeepFirstPaths(*graph, 11)
+	path := dfsPath.PathTo(10)
+
+	assert.Equal(t, 11, path[0])
+	assert.Equal(t, 10, path[len(path)-1])
+
+	dfsPath = NewDeepFirstPaths(*graph, 0)
+	path = dfsPath.PathTo(4)
+
+	assert.Equal(t, 0, path[0])
+	assert.Equal(t, 4, path[len(path)-1])
 }
