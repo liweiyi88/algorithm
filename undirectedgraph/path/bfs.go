@@ -24,7 +24,6 @@ func NewBreadthFirstPaths(g undirectedgraph.Graph, s int) *BreadthFirstPaths {
 }
 
 func (b *BreadthFirstPaths) bfs(g undirectedgraph.Graph, v int) {
-
 	queue := collections.NewQueue[int]()
 	b.marked[v] = true
 	queue.Enqueue(v)
